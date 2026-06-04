@@ -12,7 +12,7 @@ export type TaskPageVoice = {
 export const taskPageVoices = {
   article: {
     eyebrow: 'Reading desk',
-    headline: 'Long-form articles with a calmer editorial rhythm.',
+    headline: 'Long-form articles with an editorial rhythm.',
     description: 'Use this page for essays, guides, explainers, and story-led posts. The layout should feel like a publication, not a directory.',
     filterLabel: 'Choose article topic',
     secondaryNote: 'Reading surfaces need space, hierarchy, and fewer distractions.',

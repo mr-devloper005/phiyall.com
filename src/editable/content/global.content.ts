@@ -8,29 +8,31 @@ export const globalContent = {
     baseUrl: slot4BrandConfig.baseUrl,
   },
   nav: {
-    tagline: 'Independent reading platform',
+    tagline: 'Creative portfolio and discovery space',
     primaryLinks: [
+      { label: 'Discover', href: '/' },
       { label: 'Articles', href: '/articles' },
-      { label: 'Visuals', href: '/image-sharing' },
-      { label: 'Listings', href: '/listings' },
+      { label: 'Images', href: '/image-sharing' },
+      { label: 'Profiles', href: '/profiles' },
       { label: 'Contact', href: '/contact' },
     ],
     actions: {
-      primary: { label: 'Start exploring', href: '/' },
-      secondary: { label: 'Submit', href: '/contact' },
+      primary: { label: 'Sign up', href: '/signup' },
+      secondary: { label: 'Log in', href: '/login' },
     },
   },
   footer: {
-    tagline: 'Stories, resources, and discoverable posts',
-    description: 'A connected publishing surface for articles, visuals, listings, profiles, bookmarks, and downloadable resources.',
+    tagline: 'Stories, visuals, and professional profiles',
+    description: 'A polished discovery space for creative work, useful references, and professional pages that need a strong visual stage.',
     columns: [
       {
         title: 'Explore',
         links: [
+          { label: 'Home', href: '/' },
           { label: 'Articles', href: '/articles' },
           { label: 'Listings', href: '/listings' },
           { label: 'Images', href: '/image-sharing' },
-          { label: 'PDF Library', href: '/pdf' },
+          { label: 'Profiles', href: '/profiles' },
         ],
       },
       {
@@ -41,7 +43,7 @@ export const globalContent = {
         ],
       },
     ],
-    bottomNote: 'Built for clean discovery and connected publishing.',
+    bottomNote: 'Designed for smooth browsing on every screen.',
   },
   commonLabels: {
     readMore: 'Read more',

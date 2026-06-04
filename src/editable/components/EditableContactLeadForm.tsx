@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, type FormEvent } from 'react'
 import { CheckCircle2, Loader2 } from 'lucide-react'
 
 type FormStatus = 'idle' | 'submitting' | 'success' | 'error'
@@ -9,7 +9,7 @@ export function EditableContactLeadForm() {
   const [status, setStatus] = useState<FormStatus>('idle')
   const [message, setMessage] = useState('')
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setStatus('submitting')
     setMessage('')
@@ -34,7 +34,7 @@ export function EditableContactLeadForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="rounded-[2rem] border border-[var(--editable-border)] bg-white/90 p-6 shadow-2xl shadow-black/5 backdrop-blur md:p-8">
+    <form onSubmit={handleSubmit} className="rounded-[2rem] border border-[var(--editable-border)] bg-[var(--slot4-page-bg)] p-6 shadow-sm md:p-8">
       <div className="grid gap-4 md:grid-cols-2">
         <Field name="name" label="Full name" placeholder="Your name" required />
         <Field name="email" type="email" label="Email address" placeholder="you@example.com" required />
@@ -54,7 +54,7 @@ export function EditableContactLeadForm() {
           <span>{message}</span>
         </div>
       ) : null}
-      <button type="submit" disabled={status === 'submitting'} className="mt-6 inline-flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-current px-6 text-sm font-black uppercase tracking-[0.24em] text-white shadow-lg transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-70">
+      <button type="submit" disabled={status === 'submitting'} className="mt-6 inline-flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-[var(--slot4-dark-bg)] px-6 text-sm font-black uppercase tracking-[0.24em] text-white shadow-lg transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-70">
         {status === 'submitting' ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
         Send message
       </button>
