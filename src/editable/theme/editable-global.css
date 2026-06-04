@@ -15,11 +15,12 @@ body {
   background-color: var(--slot4-page-bg) !important;
   color: var(--slot4-page-text) !important;
   background-image: var(--slot4-body-gradient) !important;
+  background-attachment: fixed;
 }
 
 ::selection {
-  background: color-mix(in oklab, var(--slot4-accent-fill) 22%, transparent);
-  color: var(--slot4-page-text);
+  background: color-mix(in oklab, var(--slot4-accent-fill) 28%, white);
+  color: var(--slot4-dark-bg);
 }
 
 ::-webkit-scrollbar-track {
@@ -36,9 +37,27 @@ body {
 }
 
 .article-content h2 {
-  color: var(--slot4-accent);
+  color: var(--slot4-page-text);
 }
 
 .article-content a {
   color: var(--slot4-accent-fill);
+}
+
+.article-content p + p {
+  margin-top: 1rem;
+}
+
+.article-content ul,
+.article-content ol {
+  padding-left: 1.25rem;
+  margin: 1rem 0;
+}
+
+.article-content li + li {
+  margin-top: 0.4rem;
+}
+
+.article-content img {
+  border-radius: 1.5rem;
 }
