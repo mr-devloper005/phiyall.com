@@ -8,22 +8,29 @@ export const globalContent = {
     baseUrl: slot4BrandConfig.baseUrl,
   },
   nav: {
-    tagline: 'Creative portfolio and discovery space',
+    tagline: 'Independent Reading Platform',
+    topLinks: [
+      { label: 'Contact Us', href: '/contact' },
+      { label: 'Write For Us', href: '/create' },
+      { label: 'Guest Post', href: '/create' },
+      { label: 'About Us', href: '/about' },
+      { label: 'Search', href: '/search' },
+      { label: 'Join Us', href: '/signup' },
+    ],
     primaryLinks: [
       { label: 'Discover', href: '/' },
       { label: 'Articles', href: '/articles' },
       { label: 'Images', href: '/image-sharing' },
-      { label: 'Profiles', href: '/profiles' },
       { label: 'Contact', href: '/contact' },
     ],
     actions: {
-      primary: { label: 'Sign up', href: '/signup' },
+      primary: { label: 'Subscribe', href: '/signup' },
       secondary: { label: 'Log in', href: '/login' },
     },
   },
   footer: {
-    tagline: 'Stories, visuals, and professional profiles',
-    description: 'A polished discovery space for creative work, useful references, and professional pages that need a strong visual stage.',
+    tagline: 'Independent Reading Platform',
+    description: 'A curated space for stories, visual features, and quality content. Discover articles and images across multiple categories.',
     columns: [
       {
         title: 'Explore',
@@ -32,7 +39,6 @@ export const globalContent = {
           { label: 'Articles', href: '/articles' },
           { label: 'Listings', href: '/listings' },
           { label: 'Images', href: '/image-sharing' },
-          { label: 'Profiles', href: '/profiles' },
         ],
       },
       {
@@ -43,7 +49,7 @@ export const globalContent = {
         ],
       },
     ],
-    bottomNote: 'Designed for smooth browsing on every screen.',
+    bottomNote: 'Quality content, curated with care.',
   },
   commonLabels: {
     readMore: 'Read more',

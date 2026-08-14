@@ -1,57 +1,51 @@
 import Link from 'next/link'
-import { ArrowRight, SearchX } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { Search, CheckCircle2 } from 'lucide-react'
 
-type EmptyStateProps = {
+export function EmptyState({
+  title = 'Nothing here yet',
+  description = 'Content will appear once posts are published.',
+  actionLabel,
+  actionHref,
+  className = '',
+}: {
   title?: string
   description?: string
   actionLabel?: string
   actionHref?: string
   className?: string
-}
-
-export function EmptyState({
-  title = 'Nothing published here yet',
-  description = 'Fresh posts will appear here automatically once this section has published content.',
-  actionLabel = 'Back to home',
-  actionHref = '/',
-  className,
-}: EmptyStateProps) {
+}) {
   return (
-    <section className={cn('rounded-[2rem] border border-[var(--editable-border)] bg-white p-8 text-center shadow-sm', className)}>
-      <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[var(--slot4-page-bg)] text-[var(--slot4-page-text)]">
-        <SearchX className="h-6 w-6" />
-      </div>
-      <h2 className="mt-5 text-2xl font-black tracking-[-0.03em]">{title}</h2>
-      <p className="mx-auto mt-3 max-w-xl text-sm leading-7 opacity-65">{description}</p>
-      <Link href={actionHref} className="mt-6 inline-flex items-center gap-2 rounded-full bg-[var(--slot4-dark-bg)] px-5 py-3 text-sm font-black text-white transition hover:-translate-y-0.5">
-        {actionLabel}
-        <ArrowRight className="h-4 w-4" />
-      </Link>
-    </section>
+    <div className={`border border-dashed border-black/[0.08] bg-[#f8f7f2] p-10 text-center ${className}`}>
+      <Search className="mx-auto h-6 w-6 text-[#888]" />
+      <h2 className="mt-4 text-xl font-bold">{title}</h2>
+      <p className="font-sans-ui mt-2 text-sm text-[#6b6b6b]">{description}</p>
+      {actionLabel ? (
+        <Link href={actionHref || '/'} className="font-sans-ui mt-4 inline-flex bg-[#2d5a3d] px-5 py-2.5 text-sm font-bold text-white">
+          {actionLabel}
+        </Link>
+      ) : null}
+    </div>
   )
 }
 
-export function TaskEmptyState({ taskLabel = 'posts', className }: { taskLabel?: string; className?: string }) {
+export function TaskEmptyState({ taskLabel, className = '' }: { taskLabel?: string; className?: string }) {
   return (
     <EmptyState
-      className={className}
-      title={`No ${taskLabel} available yet`}
-      description={`Published ${taskLabel} from the master panel will appear here automatically. The page layout stays ready even when the feed is empty.`}
-      actionLabel="Explore the site"
+      title={taskLabel ? `No ${taskLabel} available yet` : 'No posts yet'}
+      description="New content will appear here once published. Check back soon."
+      actionLabel="Browse home"
       actionHref="/"
+      className={className}
     />
   )
 }
 
-export function ContactSuccessState({ className }: { className?: string }) {
+export function ContactSuccessState({ className = '' }: { className?: string }) {
   return (
-    <EmptyState
-      className={className}
-      title="Message received"
-      description="Thanks for reaching out. Your request has been saved and routed through the contact workflow."
-      actionLabel="Return home"
-      actionHref="/"
-    />
+    <div className={`border border-black/[0.06] bg-[#e8f0eb] p-8 text-center ${className}`}>
+      <CheckCircle2 className="mx-auto h-8 w-8 text-[#2d5a3d]" />
+      <h2 className="mt-4 text-xl font-bold text-[#2d5a3d]">Message received</h2>
+      <p className="font-sans-ui mt-2 text-sm text-[#6b6b6b]">We&apos;ll get back to you as soon as possible.</p>
+    </div>
   )
 }

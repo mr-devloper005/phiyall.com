@@ -1,10 +1,9 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { ArrowRight } from 'lucide-react'
 import { buildPageMetadata } from '@/lib/seo'
+import { pagesContent } from '@/editable/content/pages.content'
 import { EditableSiteShell } from '@/editable/shell/EditableSiteShell'
 import { EditableLocalSignupForm } from '@/editable/components/EditableLocalAuthForms'
-import { pagesContent } from '@/editable/content/pages.content'
 
 export async function generateMetadata(): Promise<Metadata> {
   return buildPageMetadata({ path: '/signup', title: 'Sign up', description: pagesContent.auth.signup.metadataDescription })
@@ -13,22 +12,24 @@ export async function generateMetadata(): Promise<Metadata> {
 export default function SignupPage() {
   return (
     <EditableSiteShell>
-      <main className="mx-auto max-w-[var(--editable-container)] px-4 py-12 text-[var(--editable-page-text,#171336)] sm:px-6 lg:px-8 lg:py-16">
-        <section className="grid gap-8 lg:grid-cols-[0.92fr_1fr] lg:items-center">
-          <div className="rounded-[2.4rem] border border-[var(--editable-border)] bg-[linear-gradient(135deg,#6d3bd3_0%,#5a46d6_100%)] p-7 text-white shadow-[0_26px_80px_rgba(23,19,54,0.14)] sm:p-8">
-            <p className="text-[11px] font-black uppercase tracking-[0.26em] text-white/72">{pagesContent.auth.signup.badge}</p>
-            <h1 className="mt-5 max-w-2xl text-5xl font-black leading-[0.94] tracking-[-0.07em] sm:text-6xl">{pagesContent.auth.signup.title}</h1>
-            <p className="mt-6 max-w-xl text-base leading-8 text-white/78">{pagesContent.auth.signup.description}</p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link href="/login" className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-black text-[var(--slot4-dark-bg)]">
-                {pagesContent.auth.signup.loginCta} <ArrowRight className="h-4 w-4" />
+      <main className="bg-white text-[#1a1a1a]">
+        <section className="mx-auto max-w-[1200px] px-4 py-10 sm:px-6 lg:px-8 lg:py-16">
+          <div className="grid gap-10 lg:grid-cols-2">
+            <div className="flex flex-col justify-center bg-[#2d5a3d] p-8 text-white">
+              <p className="font-sans-ui text-[10px] font-bold uppercase tracking-[0.14em] text-white/50">{pagesContent.auth.signup.badge}</p>
+              <h1 className="mt-3 text-3xl font-bold leading-[1.1] sm:text-4xl">{pagesContent.auth.signup.title}</h1>
+              <p className="font-sans-ui mt-4 max-w-md text-sm leading-7 text-white/65">{pagesContent.auth.signup.description}</p>
+              <Link href="/login" className="font-sans-ui mt-6 inline-flex w-fit bg-white px-5 py-2.5 text-sm font-bold text-[#2d5a3d]">
+                {pagesContent.auth.signup.loginCta}
               </Link>
             </div>
-          </div>
-
-          <div className="rounded-[2.4rem] border border-[var(--editable-border)] bg-white p-6 shadow-[0_26px_80px_rgba(23,19,54,0.1)] sm:p-8">
-            <h2 className="text-2xl font-black tracking-[-0.04em]">{pagesContent.auth.signup.formTitle}</h2>
-            <EditableLocalSignupForm />
+            <div className="border border-black/[0.06] bg-white p-6 sm:p-8">
+              <h2 className="text-xl font-bold">{pagesContent.auth.signup.formTitle}</h2>
+              <div className="mt-1 h-[2px] w-8 bg-[#c89a58]" />
+              <div className="mt-5">
+                <EditableLocalSignupForm />
+              </div>
+            </div>
           </div>
         </section>
       </main>
