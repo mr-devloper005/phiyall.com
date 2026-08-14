@@ -1,14 +1,11 @@
 'use client'
 
 import Link from 'next/link'
-import type { CSSProperties } from 'react'
-import { ArrowUpRight } from 'lucide-react'
 import { SITE_CONFIG } from '@/lib/site-config'
 import { globalContent } from '@/editable/content/global.content'
 import { useEditableLocalAuthSession } from '@/editable/components/EditableLocalAuthForms'
 
 export function EditableFooter() {
-  const footerVars = { '--editable-footer-bg': 'linear-gradient(180deg, rgba(243,241,255,0.96) 0%, rgba(236,238,252,0.96) 100%)', '--editable-footer-text': 'var(--slot4-page-text)' } as CSSProperties
   const taskLinks = SITE_CONFIG.tasks.filter((task) => task.enabled && task.key !== 'profile')
   const year = new Date().getFullYear()
   const { session, logout } = useEditableLocalAuthSession()
@@ -18,62 +15,63 @@ export function EditableFooter() {
     : [['About', '/about'], ['Contact', '/contact'], ['Login', '/login'], ['Sign up', '/signup']]
 
   return (
-    <footer style={footerVars} className="relative overflow-hidden border-t border-[rgba(23,19,54,0.08)] text-[var(--editable-footer-text)]">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(109,59,211,0.10),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(217,92,169,0.08),transparent_26%),linear-gradient(180deg,rgba(255,255,255,0.45),rgba(255,255,255,0))]" />
-      <div className="relative mx-auto max-w-[var(--editable-container)] px-4 py-14 sm:px-6 lg:px-8">
-        <div className="grid gap-8 rounded-[2.5rem] border border-[rgba(23,19,54,0.10)] bg-white/85 p-6 shadow-[0_20px_60px_rgba(23,19,54,0.06)] backdrop-blur-md lg:grid-cols-[1.2fr_0.9fr_0.9fr] lg:p-8">
+    <footer className="border-t border-black/[0.08] bg-[#2d5a3d] text-white">
+      <div className="mx-auto max-w-[1200px] px-4 py-12 sm:px-6 lg:px-8">
+        <div className="grid gap-10 lg:grid-cols-[1.3fr_0.7fr_0.7fr_1fr]">
+          {/* Brand */}
           <div>
-            <Link href="/" className="inline-flex items-center gap-3">
-              <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--slot4-page-bg)] text-[var(--slot4-dark-bg)] shadow-sm">
-                <img src="/favicon.png?v=20260413" alt={SITE_CONFIG.name} className="h-9 w-9 object-contain" />
-              </span>
-              <span>
-                <span className="block text-lg font-black tracking-[-0.04em]">{SITE_CONFIG.name}</span>
-                <span className="block text-xs font-bold uppercase tracking-[0.22em] text-[var(--slot4-soft-muted-text)]">{globalContent.footer?.tagline || SITE_CONFIG.tagline}</span>
-              </span>
+            <Link href="/" className="flex items-center gap-3">
+              <img src="/favicon.png?v=20260413" alt={SITE_CONFIG.name} className="h-10 w-10 object-contain" />
+              <span className="text-xl font-bold tracking-[-0.02em]">{SITE_CONFIG.name}</span>
             </Link>
-            <p className="mt-4 max-w-lg text-sm leading-7 text-[var(--slot4-muted-text)]">{globalContent.footer?.description || SITE_CONFIG.description}</p>
-            <div className="mt-6 flex flex-wrap gap-3">
-              <Link href="/signup" className="inline-flex items-center gap-2 rounded-full bg-[var(--slot4-dark-bg)] px-4 py-2 text-sm font-black text-white transition hover:-translate-y-0.5">
-                Sign up
-              </Link>
-              <Link href="/contact" className="inline-flex items-center gap-2 rounded-full border border-[rgba(23,19,54,0.14)] bg-white px-4 py-2 text-sm font-black text-[var(--slot4-page-text)] transition hover:-translate-y-0.5 hover:bg-[var(--slot4-page-bg)]">
-                Contact
-              </Link>
-            </div>
+            <p className="font-sans-ui mt-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/50">{globalContent.footer?.tagline || SITE_CONFIG.tagline}</p>
+            <p className="font-sans-ui mt-4 max-w-sm text-sm leading-7 text-white/70">{globalContent.footer?.description || SITE_CONFIG.description}</p>
           </div>
 
+          {/* Explore */}
           <div>
-            <h3 className="text-xs font-black uppercase tracking-[0.24em] text-[var(--slot4-soft-muted-text)]">Explore</h3>
-            <div className="mt-4 grid gap-2">
+            <h3 className="font-sans-ui text-[10px] font-bold uppercase tracking-[0.2em] text-white/50">Explore</h3>
+            <div className="mt-4 grid gap-1">
               {taskLinks.map((task) => (
-                <Link key={task.key} href={task.route} className="inline-flex items-center justify-between gap-3 rounded-2xl border border-[rgba(23,19,54,0.10)] bg-white px-4 py-3 text-sm font-bold text-[var(--slot4-page-text)] transition hover:bg-[var(--slot4-page-bg)]">
-                  <span>{task.label}</span>
-                  <ArrowUpRight className="h-4 w-4" />
+                <Link key={task.key} href={task.route} className="font-sans-ui py-1.5 text-sm font-medium text-white/80 transition hover:text-white">
+                  {task.label}
                 </Link>
               ))}
             </div>
           </div>
 
+          {/* Site */}
           <div>
-            <h3 className="text-xs font-black uppercase tracking-[0.24em] text-[var(--slot4-soft-muted-text)]">Stay in touch</h3>
-            <div className="mt-4 grid gap-2">
+            <h3 className="font-sans-ui text-[10px] font-bold uppercase tracking-[0.2em] text-white/50">Site</h3>
+            <div className="mt-4 grid gap-1">
               {siteLinks.map(([label, href]) => (
-                <Link key={href} href={href} className="rounded-2xl border border-[rgba(23,19,54,0.10)] bg-white px-4 py-3 text-sm font-bold text-[var(--slot4-page-text)] transition hover:bg-[var(--slot4-page-bg)]">
+                <Link key={href} href={href} className="font-sans-ui py-1.5 text-sm font-medium text-white/80 transition hover:text-white">
                   {label}
                 </Link>
               ))}
               {session ? (
-                <button type="button" onClick={logout} className="rounded-2xl border border-[rgba(23,19,54,0.10)] bg-white px-4 py-3 text-left text-sm font-bold text-[var(--slot4-page-text)] transition hover:bg-[var(--slot4-page-bg)]">
+                <button type="button" onClick={logout} className="font-sans-ui py-1.5 text-left text-sm font-medium text-white/80 transition hover:text-white">
                   Logout
                 </button>
               ) : null}
             </div>
           </div>
+
+          {/* Subscribe */}
+          <div>
+            <h3 className="text-lg font-bold">Subscribe to Updates</h3>
+            <p className="font-sans-ui mt-2 text-sm leading-6 text-white/60">Get practical reading picks, visual features, and new discoveries.</p>
+            <div className="mt-4">
+              <Link href="/signup" className="font-sans-ui inline-flex bg-[#c89a58] px-6 py-3 text-sm font-bold uppercase tracking-[0.1em] text-white transition hover:bg-[#b8894d]">
+                Subscribe
+              </Link>
+            </div>
+          </div>
         </div>
 
-        <div className="mt-6 flex flex-col gap-3 border-t border-[rgba(23,19,54,0.08)] px-1 pt-5 text-xs font-bold uppercase tracking-[0.22em] text-[var(--slot4-soft-muted-text)] sm:flex-row sm:items-center sm:justify-between">
-          <span>© {year} {SITE_CONFIG.name}</span>
+        <div className="font-sans-ui mt-10 flex flex-col gap-3 border-t border-white/15 pt-6 text-xs text-white/40 sm:flex-row sm:items-center sm:justify-between">
+          <span>&copy; {year} {SITE_CONFIG.name}. All rights reserved.</span>
+          <span>{globalContent.footer?.bottomNote}</span>
         </div>
       </div>
     </footer>

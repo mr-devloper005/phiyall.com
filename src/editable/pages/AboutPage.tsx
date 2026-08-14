@@ -1,28 +1,35 @@
-import { SITE_CONFIG } from '@/lib/site-config'
-import { pagesContent } from '@/editable/content/pages.content'
 import { EditableSiteShell } from '@/editable/shell/EditableSiteShell'
+import { pagesContent } from '@/editable/content/pages.content'
 
 export default function AboutPage() {
+  const { badge, title, description, paragraphs, values } = pagesContent.about
   return (
     <EditableSiteShell>
-      <main className="mx-auto max-w-[var(--editable-container)] px-4 py-12 text-[var(--editable-page-text,#171336)] sm:px-6 lg:px-8 lg:py-16">
-        <section className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
-          <article className="rounded-[2.6rem] border border-[var(--editable-border)] bg-white p-7 shadow-[0_26px_80px_rgba(23,19,54,0.1)] sm:p-10 lg:p-12">
-            <p className="text-[11px] font-black uppercase tracking-[0.26em] text-[var(--slot4-accent)]">{pagesContent.about.badge}</p>
-            <h1 className="mt-5 max-w-3xl text-5xl font-black leading-[0.94] tracking-[-0.07em] sm:text-6xl">About {SITE_CONFIG.name}</h1>
-            <p className="mt-5 max-w-2xl text-base leading-8 opacity-70">{pagesContent.about.description}</p>
-            <div className="mt-8 space-y-4 text-sm leading-8 opacity-75">
-              {pagesContent.about.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-            </div>
-          </article>
-          <aside className="grid gap-4">
-            {pagesContent.about.values.map((value, index) => (
-              <div key={value.title} className={`rounded-[2rem] border border-[var(--editable-border)] p-6 shadow-sm ${index === 0 ? 'bg-[linear-gradient(135deg,#6d3bd3_0%,#5a46d6_100%)] text-white' : 'bg-white'}`}>
-                <h2 className="text-xl font-black tracking-[-0.04em]">{value.title}</h2>
-                <p className={`mt-3 text-sm leading-7 ${index === 0 ? 'text-white/80' : 'opacity-70'}`}>{value.description}</p>
-              </div>
-            ))}
-          </aside>
+      <main className="bg-white text-[#1a1a1a]">
+        <section className="border-b border-black/[0.06] bg-[#2d5a3d] text-white">
+          <div className="mx-auto max-w-[1200px] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+            <p className="font-sans-ui text-[10px] font-bold uppercase tracking-[0.14em] text-white/50">{badge}</p>
+            <h1 className="mt-3 max-w-2xl text-3xl font-bold leading-[1.1] sm:text-4xl lg:text-5xl">{title}</h1>
+            <p className="font-sans-ui mt-4 max-w-xl text-sm leading-7 text-white/65">{description}</p>
+          </div>
+        </section>
+
+        <section className="mx-auto max-w-[1200px] px-4 py-10 sm:px-6 lg:px-8">
+          <div className="grid gap-10 lg:grid-cols-[1fr_360px]">
+            <article>
+              {paragraphs.map((p, i) => (
+                <p key={i} className="font-sans-ui mt-4 text-base leading-8 text-[#4a4a4a] first:mt-0">{p}</p>
+              ))}
+            </article>
+            <aside className="space-y-4">
+              {values.map((v, i) => (
+                <div key={i} className={`border p-5 ${i === 0 ? 'border-[#2d5a3d] bg-[#2d5a3d] text-white' : 'border-black/[0.06] bg-[#f8f7f2]'}`}>
+                  <h3 className="text-lg font-bold">{v.title}</h3>
+                  <p className={`font-sans-ui mt-2 text-sm leading-6 ${i === 0 ? 'text-white/70' : 'text-[#6b6b6b]'}`}>{v.description}</p>
+                </div>
+              ))}
+            </aside>
+          </div>
         </section>
       </main>
     </EditableSiteShell>
