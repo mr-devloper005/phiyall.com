@@ -1,72 +1,67 @@
 'use client'
 
-import { useState, type FormEvent } from 'react'
-import { CheckCircle2, Loader2 } from 'lucide-react'
+import { useState } from 'react'
 
-type FormStatus = 'idle' | 'submitting' | 'success' | 'error'
-
-export function EditableContactLeadForm() {
-  const [status, setStatus] = useState<FormStatus>('idle')
-  const [message, setMessage] = useState('')
-
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-    setStatus('submitting')
-    setMessage('')
-    const form = event.currentTarget
-    const formData = new FormData(form)
-
-    try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(Object.fromEntries(formData.entries())),
-      })
-      const data = await response.json().catch(() => ({}))
-      if (!response.ok) throw new Error(data?.message || 'Unable to send your message.')
-      setStatus('success')
-      setMessage(data?.message || 'Thanks. Your message has been received.')
-      form.reset()
-    } catch (error) {
-      setStatus('error')
-      setMessage(error instanceof Error ? error.message : 'Unable to send your message.')
-    }
-  }
-
+function Field({ label, name, type = 'text', required = false, rows }: { label: string; name: string; type?: string; required?: boolean; rows?: number }) {
+  const base = 'font-sans-ui h-10 w-full border border-black/[0.1] bg-white px-3 text-sm outline-none transition focus:border-[#2d5a3d] placeholder:text-[#aaa]'
   return (
-    <form onSubmit={handleSubmit} className="rounded-[2rem] border border-[var(--editable-border)] bg-[var(--slot4-page-bg)] p-6 shadow-sm md:p-8">
-      <div className="grid gap-4 md:grid-cols-2">
-        <Field name="name" label="Full name" placeholder="Your name" required />
-        <Field name="email" type="email" label="Email address" placeholder="you@example.com" required />
-      </div>
-      <div className="mt-4 grid gap-4 md:grid-cols-2">
-        <Field name="phone" label="Phone number" placeholder="Optional" />
-        <Field name="subject" label="Subject" placeholder="How can we help?" />
-      </div>
-      <label className="mt-4 grid gap-2 text-sm font-black opacity-75">
-        Message
-        <textarea name="message" required rows={6} placeholder="Tell us what you need help with..." className="rounded-2xl border border-[var(--editable-border)] bg-white px-4 py-3 text-base font-medium outline-none transition focus:border-current" />
-      </label>
-      <input name="company" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
-      {message ? (
-        <div className={`mt-5 flex items-start gap-3 rounded-2xl px-4 py-3 text-sm font-bold ${status === 'success' ? 'bg-emerald-50 text-emerald-800' : 'bg-red-50 text-red-700'}`}>
-          {status === 'success' ? <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" /> : null}
-          <span>{message}</span>
-        </div>
-      ) : null}
-      <button type="submit" disabled={status === 'submitting'} className="mt-6 inline-flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-[var(--slot4-dark-bg)] px-6 text-sm font-black uppercase tracking-[0.24em] text-white shadow-lg transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-70">
-        {status === 'submitting' ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
-        Send message
-      </button>
-    </form>
+    <div>
+      <label className="font-sans-ui block text-xs font-semibold text-[#1a1a1a]">{label}</label>
+      {rows ? (
+        <textarea name={name} required={required} rows={rows} className={`${base} mt-1 h-auto py-2`} />
+      ) : (
+        <input name={name} type={type} required={required} className={`${base} mt-1`} />
+      )}
+    </div>
   )
 }
 
-function Field({ name, label, type = 'text', placeholder, required = false }: { name: string; label: string; type?: string; placeholder?: string; required?: boolean }) {
+export function EditableContactLeadForm() {
+  const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    setStatus('sending')
+    const form = e.currentTarget
+    const data = Object.fromEntries(new FormData(form))
+    if (data.company) return
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      })
+      setStatus(res.ok ? 'sent' : 'error')
+    } catch {
+      setStatus('error')
+    }
+  }
+
+  if (status === 'sent') {
+    return (
+      <div className="border border-black/[0.06] bg-[#e8f0eb] p-6 text-center">
+        <p className="text-lg font-bold text-[#2d5a3d]">Message sent</p>
+        <p className="font-sans-ui mt-1 text-sm text-[#6b6b6b]">We&apos;ll be in touch soon.</p>
+      </div>
+    )
+  }
+
   return (
-    <label className="grid gap-2 text-sm font-black opacity-75">
-      {label}
-      <input name={name} type={type} required={required} placeholder={placeholder} className="h-12 rounded-2xl border border-[var(--editable-border)] bg-white px-4 text-base font-medium outline-none transition focus:border-current" />
-    </label>
+    <form onSubmit={handleSubmit} className="grid gap-4">
+      <div className="hidden"><input name="company" tabIndex={-1} autoComplete="off" /></div>
+      <Field label="Name" name="name" required />
+      <Field label="Email" name="email" type="email" required />
+      <Field label="Phone" name="phone" type="tel" />
+      <Field label="Subject" name="subject" required />
+      <Field label="Message" name="message" required rows={4} />
+      <button
+        type="submit"
+        disabled={status === 'sending'}
+        className="font-sans-ui mt-2 flex h-10 w-full items-center justify-center bg-[#2d5a3d] text-sm font-bold text-white transition hover:bg-[#234a31] disabled:opacity-60"
+      >
+        {status === 'sending' ? 'Sending...' : 'Send message'}
+      </button>
+      {status === 'error' ? <p className="font-sans-ui text-sm text-red-600">Something went wrong. Please try again.</p> : null}
+    </form>
   )
 }
